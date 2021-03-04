@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Patient Information</title>
+    </head>
+    <body>
+        <p>
+            Name of patient: <span id='name'></span><br/>
+            Organization name: <span id='org-name'></span><br/>
+            Gender: <span id='gender'></span><br/>
+            Number of conditions they have: <span id='numberConditions'></span><br/>
+            List of all conditions: <br/><span id='conditions'></span>
+        </p>
+
+        <script>
+            fetch("patientA.json")
+                .then(response => response.json())
+                .then(data => {
+                    document.getElementById('name').textContent = data.identifier[0].name[0].given + " " + data.identifier[0].name[0].family;
+                    document.getElementById('org-name').textContent = data.identifier[0].managingOrganization.display;
+                    document.getElementById('gender').textContent = data.identifier[0].gender;
+                
+                    var str = "";
+                    var count = 0;
+                    for (i in data.identifier[0].conditions){
+                        str += data.identifier[0].conditions[i] + ", ";
+                        count++;
+                    }
+                
+                    document.getElementById('numberConditions').textContent = count;
+                    document.getElementById('conditions').textContent = str;
+                })
+        </script>
+    </body>
+</html>
